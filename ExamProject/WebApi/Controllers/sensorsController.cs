@@ -110,7 +110,7 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
-        private bool sensorExists(int id)
+        public bool sensorExists(int id)
         {
             return db.sensors.Count(e => e.id == id) > 0;
         }
