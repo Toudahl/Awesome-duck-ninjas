@@ -9,7 +9,7 @@ using WebApi.Controllers;
 namespace TestingProject
 {
     [TestClass]
-    public class UnitTest1
+    public class SensorTest
     {
         private sensorsController sensorController;
         [TestInitialize]
@@ -59,5 +59,23 @@ namespace TestingProject
             var result = sensorController.Deletesensor(4);
             Assert.IsNotNull(result);
         }
+
+
+        [TestMethod]
+        public void CreateSensor()
+        {
+            var sensor = new sensor{id = 5,location = "Teachers Room",name = "Test sensor",platform = "Linux Debian"};
+            var result = sensorController.Postsensor(sensor);
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void UpdateSensor()
+        {
+            var sensor = new sensor { id = 5, location = "Teachers Room Update", name = "Test sensor", platform = "Linux Debian" };
+            var result = sensorController.Putsensor(5,sensor);
+            Assert.IsNotNull(result);
+        }
+
     }
 }
