@@ -17,7 +17,6 @@ namespace SensorReader
             }
             catch (ArgumentNullException argumentNullException)
             {
-                
                 Trace.TraceWarning(argumentNullException.Message);
             }
         }
