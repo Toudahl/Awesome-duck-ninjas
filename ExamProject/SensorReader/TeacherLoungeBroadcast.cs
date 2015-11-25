@@ -11,10 +11,19 @@ namespace SensorReader
 
         public TeacherLoungeBroadcast()
         {
-            link = new ApiLink("postsensorbytedata");
+            try
+            {
+                link = new ApiLink("postsensorbytedata");
+            }
+            catch (ArgumentNullException argumentNullException)
+            {
+                
+                Trace.TraceWarning(argumentNullException.Message);
+            }
         }
         public async void HandleBroadcast(byte[] input)
         {
+            Trace.TraceInformation("Got broadcast");
             try
             {
                 var result = await link.PostAsJsonAsync(input);
@@ -23,7 +32,7 @@ namespace SensorReader
                     Trace.TraceInformation("Successfully posted the data to the api");
                 }
                 else
-                    Trace.TraceWarning("Posting the data failed with the following status code: " + result.StatusCode);
+                    Trace.TraceWarning($"Posting the data failed with the following status code: {(int)result.StatusCode} ({result.StatusCode})");
             }
             catch (Exception ex)
             {

@@ -13,13 +13,11 @@ namespace SensorReader
     class ApiLink
     {
         private readonly string _apiPath;
-        private const string ServerUrl = "http://awesomeduckninjas.azurewebsites.net/api/";
+        private const string ServerUrl = "https://awesomeduckninjas.azurewebsites.net/api/";
         private TokenResponce _token;
-        private bool hasToken;
 
         public ApiLink(string apiPath)
         {
-            hasToken = false;
             _apiPath = apiPath;
             GetToken("toudahl@gmail.com","Password1234.");
         }
@@ -36,9 +34,9 @@ namespace SensorReader
                 if (result.IsSuccessStatusCode)
                 {
                     _token = await result.Content.ReadAsAsync<TokenResponce>();
-
-                   hasToken = true;
+                    return;
                 }
+                throw new ArgumentNullException($"Failed to get auth token, status code: {(int)result.StatusCode} ({result.StatusCode})");
             }
         }
 
