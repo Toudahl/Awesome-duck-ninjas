@@ -4,9 +4,15 @@ namespace SensorReader
 {
     internal class TeacherLoungeBroadcast : IBroadcastInterpreter
     {
-        public void HandleBroadcast(byte[] input)
-        {
+        private ApiLink link;
 
+        public TeacherLoungeBroadcast()
+        {
+            link = new ApiLink("PostData");
+        }
+        public async void HandleBroadcast(byte[] input)
+        {
+            await link.PostAsJsonAsync(input);
         }
     }
 }
