@@ -4,7 +4,7 @@ namespace SensorReader
 {
     internal class TeacherLoungeBroadcast : IBroadcastInterpreter
     {
-        private ApiLink link;
+        private readonly ApiLink link;
 
         public TeacherLoungeBroadcast()
         {
