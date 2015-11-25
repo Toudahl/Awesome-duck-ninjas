@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApi;
@@ -77,6 +79,34 @@ namespace TestingProject
 
             // Debug.WriteLine(contentResult.StatusCode + " Code");
              Assert.AreEqual(HttpStatusCode.NoContent,contentResult.StatusCode);
+         }
+
+         [TestMethod]
+         public void DataValuesValidRoute()
+         {
+             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:2326/api/data_values");
+             var config = new HttpConfiguration();
+             WebApiConfig.Register(config);
+             config.EnsureInitialized();
+
+             var result = config.Routes.GetRouteData(request);
+             Assert.AreEqual("api/{controller}/{id}", result.Route.RouteTemplate);
+         }
+
+         [TestMethod]
+         public void DataValuesValidRouteValues()
+         {
+             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:2326/api/data_values/1");
+             // can add headers and content 
+             var config = new HttpConfiguration();
+             WebApiConfig.Register(config);
+             config.EnsureInitialized();
+
+             var result = config.Routes.GetRouteData(request);
+             var res = result.Values.Values.ToList();
+
+             Assert.AreEqual("data_values", res[0]);
+             Assert.AreEqual("1", res[1]);
          }
 
      }

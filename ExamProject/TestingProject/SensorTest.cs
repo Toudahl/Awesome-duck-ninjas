@@ -1,9 +1,20 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading;
+using System.Web.Http;
 using System.Web.Mvc;
+using Microsoft.VisualStudio.TestTools.UITest.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApi;
+using WebApi.Areas.HelpPage;
 using WebApi.Controllers;
 
 namespace TestingProject
@@ -12,6 +23,7 @@ namespace TestingProject
     public class SensorTest
     {
         private sensorsController sensorController;
+
         [TestInitialize]
         public void TestInitialize()
         {
@@ -69,6 +81,18 @@ namespace TestingProject
             Assert.IsNotNull(result);
         }
 
+
+        [TestMethod]
+        public void CreateSensorWithByteArray()
+        {
+
+            String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
+            var byteArray = Encoding.UTF8.GetBytes(value);
+            var result = sensorController.PostSensorByteData(byteArray);
+            Assert.IsNotNull(result);
+        }
+
+
         [TestMethod]
         public void UpdateSensor()
         {
@@ -77,5 +101,35 @@ namespace TestingProject
             Assert.IsNotNull(result);
         }
 
+        [TestMethod]
+        public void SensorValidRoute()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:2326/api/sensors/1");
+            // can add headers and content 
+            var config = new HttpConfiguration();
+            WebApiConfig.Register(config);
+            config.EnsureInitialized();
+
+            var result = config.Routes.GetRouteData(request);
+            Assert.AreEqual("api/{controller}/{id}", result.Route.RouteTemplate);
+        }
+
+
+        [TestMethod]
+        public void SensorValidRouteValues()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:2326/api/sensors/1");
+            // can add headers and content 
+            var config = new HttpConfiguration();
+            WebApiConfig.Register(config);
+            config.EnsureInitialized();
+
+            var result = config.Routes.GetRouteData(request);
+            var res = result.Values.Values.ToList();
+
+            Assert.AreEqual("sensors",res[0]);
+            Assert.AreEqual("1",res[1]);
+        }
     }
 }
+
