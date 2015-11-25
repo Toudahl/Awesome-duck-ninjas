@@ -22,8 +22,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_SavePWD>True</_SavePWD>
     <_DestinationType>AzureWebSite</_DestinationType>
     <PublishDatabaseSettings>
-      <Objects>
+<<<<<<< HEAD
+      <Objects xmlns="">
         <ObjectGroup Name="Model1" Order="2" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbCodeFirst">
+            <Source Path="DBContext" DbContext="WebApi.Model1, WebApi" Origin="Configuration" />
+          </Object>
+        </ObjectGroup>
+        <ObjectGroup Name="DefaultConnection" Order="3" Enabled="False">
+          <Destination Path="Data Source=awesomeduckninjas.database.windows.net;Initial Catalog=awesomeduckninja;Persist Security Info=True;User ID=awesomeduckninja;Password=Password1234." />
+          <Object Type="DbCodeFirst">
+            <Source Path="DBContext" DbContext="WebApi.Models.ApplicationDbContext, WebApi" Origin="Convention" />
+          </Object>
+=======
+      <Objects>
+        <ObjectGroup Name="DefaultConnection" Order="1" Enabled="False">
           <Destination Path="Data Source=awesomeduckninjas.database.windows.net;Initial Catalog=awesomeduckninja;Persist Security Info=True;User ID=awesomeduckninja;Password=Password1234.;Application Name=EntityFramework" Name="data source=awesomeduckninjas.database.windows.net;initial catalog=awesomeduckninja;persist security info=True;user id=awesomeduckninja;password=Password1234.;MultipleActiveResultSets=True;App=EntityFramework" />
           <Object Type="DbCodeFirst">
             <Source Path="DBContext" DbContext="WebApi.Models.ApplicationDbContext, WebApi" Origin="Convention" />
@@ -31,13 +45,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
         </ObjectGroup>
         <ObjectGroup Name="Model1" Order="2" Enabled="False">
           <Destination Path="Data Source=awesomeduckninjas.database.windows.net;Initial Catalog=awesomeduckninja;Persist Security Info=True;User ID=awesomeduckninja;Password=Password1234.;Application Name=EntityFramework" Name="data source=awesomeduckninjas.database.windows.net;initial catalog=awesomeduckninja;persist security info=True;user id=awesomeduckninja;password=Password1234.;MultipleActiveResultSets=True;App=EntityFramework" />
-          <Object Type="DbCodeFirst">
+          <Object Type="DbDacFx">
             <PreSource Path="Data Source=awesomeduckninjas.database.windows.net;Initial Catalog=awesomeduckninja;Persist Security Info=True;User ID=awesomeduckninja;Password=Password1234.;Application Name=EntityFramework" includeData="False" />
             <Source Path="$(IntermediateOutputPath)AutoScripts\Model1_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
           </Object>
           <UpdateFrom Type="Web.Config">
             <Source MatchValue="data source=awesomeduckninjas.database.windows.net;initial catalog=awesomeduckninja;persist security info=True;user id=awesomeduckninja;password=Password1234.;MultipleActiveResultSets=True;App=EntityFramework" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
           </UpdateFrom>
+>>>>>>> 1df0b354467cfee3aa00f135130bb71cb595487f
         </ObjectGroup>
       </Objects>
     </PublishDatabaseSettings>
@@ -50,6 +65,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <ParameterValue>data source=awesomeduckninjas.database.windows.net;initial catalog=awesomeduckninja;persist security info=True;user id=awesomeduckninja;password=Password1234.;MultipleActiveResultSets=True;App=EntityFramework</ParameterValue>
       <UpdateDestWebConfig>False</UpdateDestWebConfig>
     </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)Model1-Web.config Connection String" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ConnectionStringsToInsert Include="DefaultConnection" />
   </ItemGroup>
   <ItemGroup>
     <_ConnectionStringsToInsert Include="DefaultConnection" />
