@@ -8,7 +8,7 @@ namespace SensorReader
 
         public TeacherLoungeBroadcast()
         {
-            link = new ApiLink("PostData");
+            link = new ApiLink("postsensorbytedata");
         }
         public async void HandleBroadcast(byte[] input)
         {
