@@ -85,6 +85,12 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
         }
 
+        public IHttpActionResult PostSensorByte(byte[] sensor)
+        {
+            throw new NotImplementedException();
+        }
+
+
         // DELETE: api/sensors/5
         [ResponseType(typeof(sensor))]
         public IHttpActionResult Deletesensor(int id)
