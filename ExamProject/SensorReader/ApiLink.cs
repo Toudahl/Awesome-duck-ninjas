@@ -102,7 +102,6 @@ namespace SensorReader
         /// <returns>HttpClient</returns>
         private HttpClient GetClient()
         {
-            int count = 1;
             while(_token == null)
             {
                 Thread.Sleep(500);
