@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using BroadcastReceiver;
 using Microsoft.SqlServer.Server;
 
@@ -22,7 +23,8 @@ namespace SensorReader
         }
         public async void HandleBroadcast(byte[] input)
         {
-            Trace.TraceInformation("Got broadcast");
+            Trace.TraceInformation("Got broadcast:");
+            Trace.TraceInformation(Encoding.ASCII.GetString(input));
             try
             {
                 var result = await link.PostAsJsonAsync(input);
