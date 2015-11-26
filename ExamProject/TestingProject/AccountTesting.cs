@@ -2,6 +2,8 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApi;
@@ -10,19 +12,16 @@ using WebApi.Models;
 
 namespace TestingProject
 {
-    /// <summary>
-    /// Summary description for AccountTesting
-    /// </summary>
     [TestClass]
     public class AccountTesting
     {
-        private AccountController _dataController;
+
+        private AccountController dataAccountContoller;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _dataController = new AccountController();
-            _dataController.User.Identity.IsAuthenticated.Equals(false);
+            dataAccountContoller = new AccountController();
         }
 
         public AccountTesting()
@@ -73,11 +72,13 @@ namespace TestingProject
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void GetUsers()
         {
-            //
-            // TODO: Add test logic here
-            //
+            var controller = new AccountController();
+            //controller.Request = new HttpRequestMessage();
+            //controller.Configuration = new HttpConfiguration();
+
+            var response = controller.UserManager.Users.Count();
         }
     }
 }
