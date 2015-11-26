@@ -79,7 +79,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountTesting.cs" />
+    <Compile Include="DataValuesTest.cs" />
     <Compile Include="Notes.cs" />
+    <Compile Include="SensorTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

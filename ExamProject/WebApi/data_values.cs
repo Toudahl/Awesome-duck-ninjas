@@ -13,7 +13,7 @@ namespace WebApi
         [StringLength(50)]
         public string value { get; set; }
 
-        public DateTime? created_on { get; set; }
+        public DateTime? created_on { get; set; } = DateTime.Now;
 
         public int sensor_id { get; set; }
 

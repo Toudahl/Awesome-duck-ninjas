@@ -6,9 +6,11 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi;
+using WebApi.Helper;
 
 namespace WebApi.Controllers
 {
@@ -84,6 +86,32 @@ namespace WebApi.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
         }
+
+        [HttpPost]
+        [ResponseType(typeof(sensor))]
+        public IHttpActionResult PostSensorByteData(byte[] sensorData)
+        {
+            var result = new ParseSensorData(sensorData);
+            sensor sensor = null;
+            
+            foreach (var item in result.Sensors)
+            {
+                sensor = db.sensors.FirstOrDefault((i) => i.name == item.Key);
+                if (sensor == null)
+                {
+                    sensor = new sensor();
+                    sensor.name = item.Key;
+                    sensor.location = result.Keywords["Location"];
+                    sensor.platform = result.Keywords["Platform"];
+                }
+
+                sensor.data_values.Add(new data_values { created_on = DateTime.Now, value = item.Value});
+                db.sensors.Add(sensor);
+                db.SaveChanges();
+            }
+            return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
+        }
+
 
         // DELETE: api/sensors/5
         [ResponseType(typeof(sensor))]
