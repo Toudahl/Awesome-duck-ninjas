@@ -14,6 +14,7 @@ using WebApi.Helper;
 
 namespace WebApi.Controllers
 {
+    //[Authorize]
     public class sensorsController : ApiController
     {
         private Model1 db = new Model1();
@@ -87,7 +88,9 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
         }
 
+        [AcceptVerbs("POST")]
         [HttpPost]
+        [Route("api/sensors/postByte/")]
         [ResponseType(typeof(sensor))]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
         {
