@@ -22,6 +22,11 @@ namespace SensorReader
             GetToken("toudahl@gmail.com","Password1234.");
         }
 
+        /// <summary>
+        /// Gets the token to auth with the api.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
         private async void GetToken(string userName, string password)
         {
             using (var client = new HttpClient())
@@ -30,10 +35,10 @@ namespace SensorReader
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
                 client.Timeout = new TimeSpan(0, 0, 30);
 
-                var result = await client.PostAsync(tokenUrl, new StringContent($"username={userName}&password={password}&grant_type=password"));
+                var result = client.PostAsync(tokenUrl, new StringContent($"username={userName}&password={password}&grant_type=password")).Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    _token = await result.Content.ReadAsAsync<TokenResponce>();
+                    _token = result.Content.ReadAsAsync<TokenResponce>().Result;
                     return;
                 }
                 throw new ArgumentNullException($"Failed to get auth token, status code: {(int)result.StatusCode} ({result.StatusCode})");
@@ -75,7 +80,7 @@ namespace SensorReader
         #region PostAsJsonAsync(byte array)
 
         /// <summary>
-        /// Using this method will create a new row in the database, in the table that matches the type of <see cref="T"/>
+        /// This will store send the byte array to the webapi
         /// </summary>
         /// <param name="byteArray"></param>
         /// <returns>The result of the attempted database query</returns>
@@ -102,10 +107,10 @@ namespace SensorReader
         /// <returns>HttpClient</returns>
         private HttpClient GetClient()
         {
-            while(_token == null)
-            {
-                Thread.Sleep(500);
-            }
+            //while(_token == null)
+            //{
+            //    Thread.Sleep(500);
+            //}
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.access_token);
 

@@ -21,6 +21,12 @@ namespace SensorReader
                 Trace.TraceWarning(argumentNullException.Message);
             }
         }
+
+        /// <summary>
+        /// Will attempt to send the data to the webapi.
+        /// Will notify of status.
+        /// </summary>
+        /// <param name="input">The byte array to send.</param>
         public async void HandleBroadcast(byte[] input)
         {
             Trace.TraceInformation("Got broadcast:");
