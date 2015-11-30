@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BroadcastReceiver")]
+[assembly: AssemblyTitle("SensorReader")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BroadcastReceiver")]
+[assembly: AssemblyProduct("SensorReader")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4c5b2108-b02f-450e-9108-d643dbc00343")]
+[assembly: Guid("e66966ec-f80b-4926-90e5-83beffbb852e")]
 
 // Version information for an assembly consists of the following four values:
 //
