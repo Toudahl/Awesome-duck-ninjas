@@ -86,6 +86,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountTesting.cs" />
+    <Compile Include="TestingUDPReceiver.cs" />
     <Compile Include="ApiLink.cs" />
     <Compile Include="DataValuesTest.cs" />
     <Compile Include="Notes.cs" />
