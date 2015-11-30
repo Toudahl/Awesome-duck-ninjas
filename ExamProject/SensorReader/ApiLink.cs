@@ -13,7 +13,8 @@ namespace SensorReader
     class ApiLink
     {
         private readonly string _apiPath;
-        private const string ServerUrl = "https://awesomeduckninjas.azurewebsites.net/api/";
+        //private const string ServerUrl = "https://awesomeduckninjas.azurewebsites.net/api/";
+        private const string ServerUrl = "http://localhost:2326/api/";
         private TokenResponce _token;
 
         public ApiLink(string apiPath)
