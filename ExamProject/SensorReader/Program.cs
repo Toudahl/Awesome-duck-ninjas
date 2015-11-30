@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using BroadcastReceiver;
@@ -12,6 +14,7 @@ namespace SensorReader
     {
         static void Main(string[] args)
         {
+
             if (args.Length != 1)
             {
                 Trace.WriteLine("Write the port you want to listen on.");
@@ -29,7 +32,7 @@ namespace SensorReader
             }
 
             StartReciever(port);
-            Console.WriteLine("Press any key to stop listening for UDP broadcasts");
+            Trace.WriteLine("Press any key to stop listening for UDP broadcasts");
             Console.ReadKey();
         }
 
@@ -45,11 +48,11 @@ namespace SensorReader
             {
                 return Convert.ToInt32(args);
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 Trace.TraceInformation("input port number as integer. ie, 7000");
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Trace.TraceWarning("Unexpected exception");
             }
@@ -60,9 +63,9 @@ namespace SensorReader
         {
             Trace.AutoFlush = true;
             Trace.Listeners.Add(new ConsoleTraceListener
-                                {
-                                    Filter = new EventTypeFilter(SourceLevels.All)
-                                });
+            {
+                Filter = new EventTypeFilter(SourceLevels.All)
+            });
         }
     }
 }
