@@ -88,7 +88,7 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
         }
 
-        [AcceptVerbs("POST")]
+
         [HttpPost]
         [Route("api/sensors/postByte/")]
         [ResponseType(typeof(sensor))]

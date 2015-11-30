@@ -92,28 +92,6 @@ namespace TestingProject
             Assert.IsNotNull(result);
         }
 
-
-        [TestMethod]
-        //public void CreateSensorWithUrl()
-        //{
-
-        //    String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
-        //    var byteArray = Encoding.UTF8.GetBytes(value);
-        //    var request = (HttpWebRequest)WebRequest.Create("https://localhost:43001/api/sensors/postBytes");
-
-        //    request.Method = "POST";
-        //    request.ContentType = "application/x-www-form-urlencoded";
-        //    request.ContentLength = byteArray.Length;
-
-        //    using (var stream = request.GetRequestStream())
-        //    {
-        //        stream.Write(byteArray, 0, byteArray.Length);
-        //    }
-
-        //    var response = (HttpWebResponse)request.GetResponse();
-        //    var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-        //}
-
         public void CreateSensorWithUrl()
         {
 
@@ -123,7 +101,8 @@ namespace TestingProject
             var uri = "https://localhost:43001/api/sensors/postBytes";
             var client = new HttpClient();
             byteContent.Headers.Add("Content-type", "application/bson");
-            HttpResponseMessage reponse =  client.PostAsync(uri, byteContent).Result;
+            HttpResponseMessage response =  client.PostAsync(uri, byteContent).Result;
+            
 
         }
 
@@ -161,7 +140,7 @@ namespace TestingProject
 
             var result = config.Routes.GetRouteData(request);
             var res = result.Values.Values.ToList();
-
+            
             Assert.AreEqual("sensors",res[0]);
             Assert.AreEqual("1",res[1]);
         }
