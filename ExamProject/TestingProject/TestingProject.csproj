@@ -80,6 +80,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ApiLink.cs" />
     <Compile Include="DataValuesTest.cs" />
     <Compile Include="Notes.cs" />
     <Compile Include="SensorTest.cs" />

@@ -15,7 +15,7 @@ using WebApi.Helper;
 
 namespace WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class sensorsController : ApiController
     {
         private Model1 db = new Model1();
