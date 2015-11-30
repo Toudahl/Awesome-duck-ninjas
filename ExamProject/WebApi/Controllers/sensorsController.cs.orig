@@ -15,7 +15,7 @@ using WebApi.Helper;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class sensorsController : ApiController
     {
         private Model1 db = new Model1();
@@ -95,8 +95,8 @@ namespace WebApi.Controllers
         [ResponseType(typeof(sensor))]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
         {
-            var result = new ParseSensorData(sensorData);
-            sensor sensor = null;
+            //var result = new ParseSensorData(sensorData);
+            //sensor sensor = null;
 
             try
             {

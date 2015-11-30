@@ -23,6 +23,7 @@ namespace TestingProject
     public class SensorTest
     {
         private sensorsController sensorController;
+        private ApiLink apiLink;
 
         [TestInitialize]
         public void TestInitialize()
@@ -92,18 +93,16 @@ namespace TestingProject
             Assert.IsNotNull(result);
         }
 
+        [TestMethod]
         public void CreateSensorWithUrl()
         {
-
-            String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
+            String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer1(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
             var byteArray = Encoding.UTF8.GetBytes(value);
-            ByteArrayContent byteContent = new ByteArrayContent(byteArray);
-            var uri = "https://localhost:43001/api/sensors/postBytes";
-            var client = new HttpClient();
-            byteContent.Headers.Add("Content-type", "application/bson");
-            HttpResponseMessage response =  client.PostAsync(uri, byteContent).Result;
-            
-
+            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/postByte";
+            apiLink = new ApiLink("sensors/postByte");
+            var response = apiLink.PostAsJsonAsync(byteArray).Result;
+       
+            Assert.IsNotNull(response.EnsureSuccessStatusCode());
         }
 
 
@@ -140,7 +139,7 @@ namespace TestingProject
 
             var result = config.Routes.GetRouteData(request);
             var res = result.Values.Values.ToList();
-            
+
             Assert.AreEqual("sensors",res[0]);
             Assert.AreEqual("1",res[1]);
         }
