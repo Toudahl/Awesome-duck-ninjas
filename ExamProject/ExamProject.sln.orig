@@ -5,8 +5,11 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{D4C67711-67C9-4DF0-829D-E0AF8D098CE4}"
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadcastReceiver", "BroadcastReceiver\BroadcastReceiver.csproj", "{4C5B2108-B02F-450E-9108-D643DBC00343}"
 EndProject
+=======
+>>>>>>> 942f52064582006093b45b894bb0cecb98eb836d
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingProject", "TestingProject\TestingProject.csproj", "{F05CE182-D957-40D6-BAD9-9EC58BD32A2D}"
 EndProject
 Global
@@ -19,10 +22,13 @@ Global
 		{D4C67711-67C9-4DF0-829D-E0AF8D098CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4C67711-67C9-4DF0-829D-E0AF8D098CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4C67711-67C9-4DF0-829D-E0AF8D098CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{4C5B2108-B02F-450E-9108-D643DBC00343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C5B2108-B02F-450E-9108-D643DBC00343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C5B2108-B02F-450E-9108-D643DBC00343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C5B2108-B02F-450E-9108-D643DBC00343}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+>>>>>>> 942f52064582006093b45b894bb0cecb98eb836d
 		{F05CE182-D957-40D6-BAD9-9EC58BD32A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F05CE182-D957-40D6-BAD9-9EC58BD32A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F05CE182-D957-40D6-BAD9-9EC58BD32A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
