@@ -259,8 +259,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <None Include="Properties\PublishProfiles\awesomeduckninjas - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\awesomeduckninjas - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\awesomeduckninjas.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

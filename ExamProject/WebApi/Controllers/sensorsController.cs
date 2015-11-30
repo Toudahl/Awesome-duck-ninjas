@@ -94,24 +94,26 @@ namespace WebApi.Controllers
         [ResponseType(typeof(sensor))]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
         {
-            var result = new ParseSensorData(sensorData);
-            sensor sensor = null;
+            //var result = new ParseSensorData(sensorData);
+            //sensor sensor = null;
             
-            foreach (var item in result.Sensors)
-            {
-                sensor = db.sensors.FirstOrDefault((i) => i.name == item.Key);
-                if (sensor == null)
-                {
-                    sensor = new sensor();
-                    sensor.name = item.Key;
-                    sensor.location = result.Keywords["Location"];
-                    sensor.platform = result.Keywords["Platform"];
-                }
+            //foreach (var item in result.Sensors)
+            //{
+            //    sensor = db.sensors.FirstOrDefault((i) => i.name == item.Key);
+            //    if (sensor == null)
+            //    {
+            //        sensor = new sensor();
+            //        sensor.name = item.Key;
+            //        sensor.location = result.Keywords["Location"];
+            //        sensor.platform = result.Keywords["Platform"];
+            //    }
 
-                sensor.data_values.Add(new data_values { created_on = DateTime.Now, value = item.Value});
-                db.sensors.Add(sensor);
-                db.SaveChanges();
-            }
+            //    sensor.data_values.Add(new data_values { created_on = DateTime.Now, value = item.Value});
+            //    db.sensors.Add(sensor);
+            //    db.SaveChanges();
+            //}
+            var sensor = new sensor();
+            sensor.location = "something";
             return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
         }
 
