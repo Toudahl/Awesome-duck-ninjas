@@ -42,6 +42,7 @@ namespace SensorReader
                     _token = result.Content.ReadAsAsync<TokenResponce>().Result;
                     return;
                 }
+                // TODO: This exception cannot be caught. We need a fix for this.
                 throw new ArgumentNullException($"Failed to get auth token, status code: {(int)result.StatusCode} ({result.StatusCode})");
             }
         }
