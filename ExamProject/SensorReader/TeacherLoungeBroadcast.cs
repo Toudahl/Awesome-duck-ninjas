@@ -14,7 +14,7 @@ namespace SensorReader
         {
             try
             {
-                link = new ApiLink("postsensorbytedata");
+                link = new ApiLink("sensors/postbyte");
             }
             catch (ArgumentNullException argumentNullException)
             {
@@ -39,7 +39,7 @@ namespace SensorReader
                     Trace.TraceInformation("Successfully posted the data to the api");
                 }
                 else
-                    Trace.TraceWarning($"Posting the data failed with the following status code: {(int)result.StatusCode} ({result.StatusCode})");
+                    Trace.TraceWarning($"Posting the data failed with the following status code: {(int)result.StatusCode} ({result.StatusCode}) + {result.ReasonPhrase}");
             }
             catch (Exception ex)
             {
