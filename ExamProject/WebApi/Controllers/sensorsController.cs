@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -96,23 +97,32 @@ namespace WebApi.Controllers
         {
             var result = new ParseSensorData(sensorData);
             sensor sensor = null;
-            
-            foreach (var item in result.Sensors)
-            {
-                sensor = db.sensors.FirstOrDefault((i) => i.name == item.Key);
-                if (sensor == null)
-                {
-                    sensor = new sensor();
-                    sensor.name = item.Key;
-                    sensor.location = result.Keywords["Location"];
-                    sensor.platform = result.Keywords["Platform"];
-                }
 
-                sensor.data_values.Add(new data_values { created_on = DateTime.Now, value = item.Value});
-                db.sensors.Add(sensor);
-                db.SaveChanges();
+            try
+            {
+                foreach (var item in result.Sensors)
+                {
+                    sensor = db.sensors.FirstOrDefault((i) => i.name == item.Key);
+                    if (sensor == null)
+                    {
+                        sensor = new sensor();
+                        sensor.name = item.Key;
+                        sensor.location = result.Keywords["Location"];
+                        sensor.platform = result.Keywords["Platform"];
+                        db.sensors.Add(sensor);
+                    }
+
+                    sensor.data_values.Add(new data_values {created_on = DateTime.Now, value = item.Value});
+                    db.SaveChanges();
+                }
             }
-            return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Source);
+                return BadRequest("Request failed misserably");
+            }
+            return Ok("Well done");
         }
 
 
