@@ -25,7 +25,8 @@ namespace TestingProject
     {
         private sensorsController sensorController;
         private ApiLink apiLink;
-
+        private const String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
+        Byte[] byteArray = Encoding.UTF8.GetBytes(value);
         [TestInitialize]
         public void TestInitialize()
         {
@@ -40,6 +41,17 @@ namespace TestingProject
         }
 
         [TestMethod]
+        public void GetAllSensorsUrl()
+        {
+            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/";
+            apiLink = new ApiLink("sensors");
+            var response = apiLink.GetAsync();
+
+            Assert.IsNotNull(response.Result.EnsureSuccessStatusCode());
+        }
+
+
+        [TestMethod]
         public void GetSingleSensor()
         {
             var result = sensorController.Getsensor(1);
@@ -52,6 +64,16 @@ namespace TestingProject
             var result = sensorController.Getsensors();
             var sensor = result.FirstOrDefault((i) => i.name == "Potentiometer(8bit)");
             Assert.IsNotNull(sensor);
+        }
+
+        [TestMethod]
+        public void GetSingleSensorNameUrl()
+        {
+            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/292";
+            apiLink = new ApiLink("sensors/292");
+            var response = apiLink.GetAsync();
+
+            Assert.IsNotNull(response.Result.EnsureSuccessStatusCode());
         }
 
 
@@ -84,12 +106,11 @@ namespace TestingProject
         }
 
 
+
         [TestMethod]
         public void CreateSensorWithByteArray()
         {
-
-            String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
-            var byteArray = Encoding.UTF8.GetBytes(value);
+            byteArray = Encoding.UTF8.GetBytes(value);
             var result = sensorController.PostSensorByteData(byteArray);
             Assert.IsNotNull(result);
         }
@@ -97,8 +118,7 @@ namespace TestingProject
         [TestMethod]
         public void CreateSensorWithUrl()
         {
-            String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer1(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
-            var byteArray = Encoding.UTF8.GetBytes(value);
+            byteArray = Encoding.UTF8.GetBytes(value);
             var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/postByte";
             apiLink = new ApiLink("sensors/postByte");
             var response = apiLink.PostAsJsonAsync(byteArray).Result;
@@ -144,6 +164,9 @@ namespace TestingProject
             Assert.AreEqual("sensors",res[0]);
             Assert.AreEqual("1",res[1]);
         }
+
+  
+ 
     }
 }
 
