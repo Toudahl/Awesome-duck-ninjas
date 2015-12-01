@@ -71,14 +71,14 @@ namespace TestingProject
         //
         #endregion
 
-        [TestMethod]
-        public void GetUsers()
-        {
-            var controller = new AccountController();
-            //controller.Request = new HttpRequestMessage();
-            //controller.Configuration = new HttpConfiguration();
+        //[TestMethod]
+        //public void GetUsers()
+        //{
+        //    var controller = new AccountController();
+        //    //controller.Request = new HttpRequestMessage();
+        //    //controller.Configuration = new HttpConfiguration();
 
-            var response = controller.UserManager.Users.Count();
-        }
+        //    var response = controller.UserManager.Users.Count();
+        //}
     }
 }

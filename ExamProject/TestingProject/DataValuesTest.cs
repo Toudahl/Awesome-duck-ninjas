@@ -30,32 +30,32 @@ namespace TestingProject
          {
              var res = dataController.Getdata_values();
              Assert.IsNotNull(res);
-             Assert.AreEqual(3, res.Count());
+             Assert.AreEqual(120, res.Count());
              
-             var sensor_id = res.First((i) => i.sensor_id == 1).id;
-             Assert.AreEqual(1,sensor_id);
+             var data_id = res.First((i) => i.sensor_id == 292).id;
+             Assert.AreEqual(62,data_id);
          }
 
 
          [TestMethod]
          public void GetDataForOneSensor()
          {
-             var res = dataController.Getdata_values(1);
+             var res = dataController.Getdata_values(62);
              var contentResult = res as OkNegotiatedContentResult<data_values>;
 
              Assert.IsNotNull(contentResult);
              Assert.IsNotNull(contentResult.Content);
 
              var dataValues = contentResult.Content.sensor.data_values;
-             var dataValue = dataValues.First((i) => i.id == 1);
+             var dataValue = dataValues.First((i) => i.id == 62);
 
-             Assert.AreEqual("Potentiometer",dataValue.sensor.name);
+             Assert.AreEqual("Potentiometer(8bit)", dataValue.sensor.name);
          }
 
          [TestMethod]
          public void CreateDataValues()
          {
-             data_values data = new data_values {sensor_id = 1, value = "999"};
+             data_values data = new data_values {sensor_id = 292, value = "999"};
              var res = dataController.Postdata_values(data);
              Assert.IsNotNull(res);
          }
@@ -71,8 +71,8 @@ namespace TestingProject
          [TestMethod]
          public void UpdateDataCheckForValue()
          {
-             data_values data = new data_values { sensor_id = 1, value = "789", id = 6 };
-             var res = dataController.Putdata_values(6, data);
+             data_values data = new data_values { sensor_id = 292, value = "789", id = 62 };
+             var res = dataController.Putdata_values(62, data);
              Assert.IsNotNull(res);
 
              var contentResult = res as StatusCodeResult;

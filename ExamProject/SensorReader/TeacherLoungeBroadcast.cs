@@ -39,7 +39,7 @@ namespace SensorReader
                     Trace.TraceInformation("Successfully posted the data to the api");
                 }
                 else
-                    Trace.TraceWarning($"Posting the data failed with the following status code: {(int)result.StatusCode} ({result.StatusCode}) + {result.ReasonPhrase}");
+                    Trace.TraceWarning("Posting the data failed");
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -49,7 +50,7 @@ namespace TestingProject
         public void GetSingleSensorName()
         {
             var result = sensorController.Getsensors();
-            var sensor = result.FirstOrDefault((i) => i.name == "Potentiometer");
+            var sensor = result.FirstOrDefault((i) => i.name == "Potentiometer(8bit)");
             Assert.IsNotNull(sensor);
         }
 
@@ -77,7 +78,7 @@ namespace TestingProject
         [TestMethod]
         public void CreateSensor()
         {
-            var sensor = new sensor{id = 5,location = "Teachers Room",name = "Test sensor",platform = "Linux Debian"};
+            var sensor = new sensor{id = 7,location = "Teachers Room",name = "Test sensor",platform = "Linux Debian"};
             var result = sensorController.Postsensor(sensor);
             Assert.IsNotNull(result);
         }

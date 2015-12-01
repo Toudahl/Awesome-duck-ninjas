@@ -36,14 +36,14 @@ namespace SensorReader
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
                 client.Timeout = new TimeSpan(0, 0, 30);
 
-                var result = client.PostAsync(tokenUrl, new StringContent($"username={userName}&password={password}&grant_type=password")).Result;
+                var result = client.PostAsync(tokenUrl, new StringContent("username="+userName+"&password="+password+"&grant_type=password")).Result;
                 if (result.IsSuccessStatusCode)
                 {
                     _token = result.Content.ReadAsAsync<TokenResponce>().Result;
                     return;
                 }
                 // TODO: This exception cannot be caught. We need a fix for this.
-                throw new ArgumentNullException($"Failed to get auth token, status code: {(int)result.StatusCode} ({result.StatusCode})");
+                throw new ArgumentNullException("Failed to get auth token");
             }
         }
 
