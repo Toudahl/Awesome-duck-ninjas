@@ -19,10 +19,12 @@ namespace TestingProject
     public class DataValuesTest
      {
          private data_valuesController dataController;
+         private ApiLink link;
          [TestInitialize]
          public void TestInitialize()
          {
             dataController = new data_valuesController();
+            link = new ApiLink("data_values");
          }
 
          [TestMethod]
@@ -34,6 +36,13 @@ namespace TestingProject
              
              var data_id = res.First((i) => i.sensor_id == 292).id;
              Assert.AreEqual(62,data_id);
+         }
+
+
+         [TestMethod]
+         public void GetDataByUrl()
+         {
+             
          }
 
 

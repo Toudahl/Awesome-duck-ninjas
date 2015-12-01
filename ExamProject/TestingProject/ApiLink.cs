@@ -101,6 +101,28 @@ namespace TestingProject
         }
         #endregion
 
+        #region GetAsync(id)
+        /// <summary>
+        /// Calling this method will get all the content of the database that matches the type of <see cref="T"/>
+        /// </summary>
+        /// <param name="id">Enter an id, if you wish to get only a specific row from the database</param>
+        /// <returns>The result of the attempted database query</returns>
+        public async Task<HttpResponseMessage> GetAsync(int? id = null)
+        {
+            try
+            {
+                using (var client = GetClient())
+                {
+                    return await client.GetAsync(ServerUrl + _apiPath + "/" + id);
+                }
+            }
+            catch (Exception e)
+            {
+                return FailedClient(e);
+            }
+        }
+        #endregion
+
         #region GetClient()
         /// <summary>
         /// Instansiates the HttpClient that is used by all the methods in this class
