@@ -1,4 +1,4 @@
-namespace WebApi.EF
+namespace WebApi
 {
     using System;
     using System.Data.Entity;
@@ -8,7 +8,7 @@ namespace WebApi.EF
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=Model11")
+            : base("name=Model1")
         {
         }
 
@@ -24,28 +24,13 @@ namespace WebApi.EF
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Broadcaster>()
-                .HasMany(e => e.Sensors)
-                .WithOptional(e => e.Broadcaster)
-                .HasForeignKey(e => e.Fk_Broadcaster);
-
             modelBuilder.Entity<Location>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Location>()
-                .HasMany(e => e.Sensors)
-                .WithOptional(e => e.Location)
-                .HasForeignKey(e => e.Fk_Location);
-
             modelBuilder.Entity<SensorType>()
                 .Property(e => e.Type)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<SensorType>()
-                .HasMany(e => e.Sensors)
-                .WithOptional(e => e.SensorType)
-                .HasForeignKey(e => e.Fk_SensorType);
 
             modelBuilder.Entity<Value>()
                 .Property(e => e.Value1)

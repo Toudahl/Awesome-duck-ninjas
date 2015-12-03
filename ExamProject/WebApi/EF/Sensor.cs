@@ -1,4 +1,4 @@
-namespace WebApi.EF
+namespace WebApi
 {
     using System;
     using System.Collections.Generic;
@@ -16,11 +16,5 @@ namespace WebApi.EF
         public int? Fk_SensorType { get; set; }
 
         public int? Fk_Broadcaster { get; set; }
-
-        public virtual Broadcaster Broadcaster { get; set; }
-
-        public virtual Location Location { get; set; }
-
-        public virtual SensorType SensorType { get; set; }
     }
 }

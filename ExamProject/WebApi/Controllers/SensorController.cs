@@ -98,30 +98,7 @@ namespace WebApi.Controllers
             var result = new ParseSensorData(sensorData);
             Sensor sensor = null;
 
-            try
-            {
-                foreach (var item in result.Sensors)
-                {
-                   // sensor = db.Sensors.FirstOrDefault((i) => i.Name == item.Key);
-                    if (sensor == null)
-                    {
-                        sensor = new Sensor();
-                       // sensor.name = item.Key;
-                        sensor.Fk_Location = result.Keywords["Location"];
-                        sensor.fk = result.Keywords["Platform"];
-                        db.Sensors.Add(sensor);
-                    }
-
-                    sensor.data_values.Add(new data_values { created_on = DateTime.Now, value = item.Value });
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                Debug.WriteLine(ex.Source);
-                return BadRequest("Request failed misserably");
-            }
+        
             return Ok("Well done");
         }
 
