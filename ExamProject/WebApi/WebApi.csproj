@@ -217,6 +217,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\old_sensorsController.cs" />
     <Compile Include="Controllers\SensorController.cs" />
+    <Compile Include="Controllers\SensorParser.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="data_values.cs" />
     <Compile Include="EF\Broadcaster.cs" />

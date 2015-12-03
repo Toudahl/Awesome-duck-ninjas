@@ -92,6 +92,9 @@ namespace WebApi.Controllers
         [ResponseType(typeof(Sensor))]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
         {
+            SensorParser parser = new SensorParser();
+
+            parser.ParseInput(sensorData);
             var result = new ParseSensorData(sensorData);
             Sensor sensor = null;
 
