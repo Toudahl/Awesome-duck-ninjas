@@ -71,7 +71,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/data_values
-        [ResponseType(typeof(data_values))]
+        [ResponseType(typeof(Value))]
         public IHttpActionResult PostValue(Value value)
         {
             if (!ModelState.IsValid)
@@ -86,7 +86,7 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/data_values/5
-        [ResponseType(typeof(data_values))]
+        [ResponseType(typeof(Value))]
         public IHttpActionResult DeleteValue(int id)
         {
             Value values = db.Values.Find(id);
