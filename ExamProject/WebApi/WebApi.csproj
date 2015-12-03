@@ -217,7 +217,7 @@
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SensorController.cs" />
-    <Compile Include="Controllers\SensorParser.cs" />
+    <Compile Include="Helper\SensorParser.cs" />
     <Compile Include="Controllers\SensorTypeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

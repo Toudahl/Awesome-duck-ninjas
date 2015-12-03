@@ -14,7 +14,7 @@ namespace SensorReader
         {
             try
             {
-                link = new ApiLink("sensors/postbyte");
+                link = new ApiLink("sensor/postbyte");
             }
             catch (ArgumentNullException argumentNullException)
             {

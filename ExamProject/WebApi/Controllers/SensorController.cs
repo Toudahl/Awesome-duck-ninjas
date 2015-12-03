@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using WebApi.EF;
 using WebApi.Helper;
 
 namespace WebApi.Controllers
@@ -24,7 +23,7 @@ namespace WebApi.Controllers
         }
 
         // GET: api/Sensor/5
-        [ResponseType(typeof(sensor))]
+        [ResponseType(typeof(Sensor))]
         public IHttpActionResult Getsensor(int id)
         {
             Sensor sensor = db.Sensors.Find(id);
@@ -38,14 +37,14 @@ namespace WebApi.Controllers
 
         // PUT: api/Sensor/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult Putsensor(int id, sensor sensor)
+        public IHttpActionResult Putsensor(int id, Sensor sensor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != sensor.id)
+            if (id != sensor.Id)
             {
                 return BadRequest();
             }
@@ -96,10 +95,10 @@ namespace WebApi.Controllers
 
             parser.ParseInput(sensorData);
             var result = new ParseSensorData(sensorData);
-            Sensor sensor = null;
+            //Sensor sensor = null;
 
         
-            return Ok("Well done");
+            return Ok();
         }
 
 
