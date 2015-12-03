@@ -12,7 +12,7 @@ using WebApi;
 
 namespace WebApi.Controllers
 {
-    public class data_valuesController : ApiController
+    public class old_data_valuesController : ApiController
     {
         private Model1 db = new Model1();
 

@@ -23,14 +23,14 @@ namespace TestingProject
     [TestClass]
     public class SensorTest
     {
-        private sensorsController sensorController;
+        private old_sensorsController sensorController;
         private ApiLink apiLink;
         private const String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
         Byte[] byteArray = Encoding.UTF8.GetBytes(value);
         [TestInitialize]
         public void TestInitialize()
         {
-          sensorController = new sensorsController();
+          sensorController = new old_sensorsController();
         }
 
         [TestMethod]

@@ -20,12 +20,12 @@ namespace TestingProject
     [TestClass]
     public class DataValuesTest
     {
-        private data_valuesController dataController;
+        private old_data_valuesController dataController;
         private ApiLink link;
         [TestInitialize]
         public void TestInitialize()
         {
-            dataController = new data_valuesController();
+            dataController = new old_data_valuesController();
             link = new ApiLink("data_values");
         }
 

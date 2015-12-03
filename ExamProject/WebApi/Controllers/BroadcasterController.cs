@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
+using WebApi.EF;
+
+namespace WebApi.Controllers
+{
+    public class BroadcasterController : ApiController
+    {
+         private Model1 db = new Model1();
+        // GET: api/Broadcaster
+        public IEnumerable<Broadcaster> Get()
+        {
+            return db.Broadcasters;
+        }
+
+        // GET: api/Broadcaster/5
+        [ResponseType(typeof(Broadcaster))]
+        public IHttpActionResult Get(int id)
+        {
+            var broadcaster = db.Broadcasters.FirstOrDefault((i) => i.Id == id);
+            if (broadcaster == null)
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return Ok(broadcaster);
+        }
+    }
+}
