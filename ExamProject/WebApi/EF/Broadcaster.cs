@@ -1,4 +1,4 @@
-namespace WebApi.EF
+namespace WebApi
 {
     using System;
     using System.Collections.Generic;
@@ -9,17 +9,10 @@ namespace WebApi.EF
     [Table("Broadcaster")]
     public partial class Broadcaster
     {
-        public Broadcaster()
-        {
-            Sensors = new HashSet<Sensor>();
-        }
-
         public int Id { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-
-        public virtual ICollection<Sensor> Sensors { get; set; }
     }
 }

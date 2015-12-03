@@ -1,4 +1,4 @@
-namespace WebApi.EF
+namespace WebApi
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace WebApi.EF
         [StringLength(20)]
         public string Value1 { get; set; }
 
-        public int? FK_Sensor_type { get; set; }
+        public int? FK_Sensor { get; set; }
 
         public DateTime? CreatedOn { get; set; }
     }
