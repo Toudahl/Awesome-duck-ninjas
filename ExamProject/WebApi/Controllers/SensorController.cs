@@ -17,23 +17,23 @@ namespace WebApi.Controllers
         private Model1 db = new Model1();
 
         // GET: api/Sensor
-        public IQueryable<Sensor> GetSensor()
+        public IQueryable<Sensor> GetSensors()
         {
             return db.Sensors;
         }
 
         // GET: api/Sensor/5
-        //[ResponseType(typeof(Sensor))]
-        //public IHttpActionResult Getsensor(int id)
-        //{
-        //    Sensor sensor = db.Sensors.Find(id);
-        //    if (sensor == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [ResponseType(typeof(Sensor))]
+        public IHttpActionResult GetSensor(int id)
+        {
+            Sensor sensor = db.Sensors.Find(id);
+            if (sensor == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(sensor);
-        //}
+            return Ok(sensor);
+        }
 
         // PUT: api/Sensor/5
         [ResponseType(typeof(void))]
