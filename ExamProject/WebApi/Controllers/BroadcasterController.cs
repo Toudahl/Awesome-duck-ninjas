@@ -29,7 +29,26 @@ namespace WebApi.Controllers
             return Ok(broadcaster);
         }
 
+        [HttpGet]
+        [Route("api/Broadcaster/{broadcasterId}/Sensors")]
+        public IEnumerable<SensorDTO> GetBroadcasterSensors(int broadcasterId)
+        {
+            var broadcaster = db.Broadcasters.FirstOrDefault((i) => i.Id == broadcasterId);
+            if (broadcaster == null) return null;
 
+            List<SensorDTO> sensorsDTO = new List<SensorDTO>();
+            var sensors = db.Sensors.Where((i) => i.Fk_Broadcaster == broadcasterId);
+            foreach (Sensor sensor in sensors)
+            {
+                var sensorDTO = new SensorDTO();
 
+                sensorDTO.Id = sensor.Id;
+                sensorDTO.LocationName = db.Locations.FirstOrDefault((i) => i.Id == sensor.Fk_Location).Name;
+                sensorDTO.SensorType =   db.SensorTypes.FirstOrDefault((i) => i.Id == sensor.Fk_SensorType).Type;
+                sensorDTO.Broadcaster = broadcaster.Name;
+                sensorsDTO.Add(sensorDTO);
+            }
+            return sensorsDTO;;
+        }
     }
 }
