@@ -88,17 +88,23 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("api/Sensor/postByte/")]
-        [ResponseType(typeof(Sensor))]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
         {
             SensorParser parser = new SensorParser();
 
-            parser.ParseInput(sensorData);
+            try
+            {
+                parser.ParseInput(sensorData);
+            }
+            catch (Exception)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
             var result = new ParseSensorData(sensorData);
             //Sensor sensor = null;
 
         
-            return Ok();
+            return StatusCode(HttpStatusCode.Accepted);
         }
 
 

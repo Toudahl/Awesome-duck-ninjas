@@ -33,7 +33,7 @@ namespace WebApi
                 .IsUnicode(false);
 
             modelBuilder.Entity<Value>()
-                .Property(e => e.Value1)
+                .Property(e => e.ValueInput)
                 .IsUnicode(false);
         }
     }

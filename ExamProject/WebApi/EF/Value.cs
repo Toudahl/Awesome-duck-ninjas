@@ -11,8 +11,7 @@ namespace WebApi
         public int Id { get; set; }
 
         [Column("Value")]
-        [StringLength(20)]
-        public string Value1 { get; set; }
+        public string ValueInput { get; set; }
 
         public int? FK_Sensor { get; set; }
 

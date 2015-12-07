@@ -32,6 +32,8 @@ namespace WebApi.Controllers
 
         private void AddToDatabase(IDictionary<Sensor,Value> sensorValues)
         {
+
+
             try
             {
                 foreach (KeyValuePair<Sensor, Value> keyValuePair in sensorValues)
@@ -72,7 +74,7 @@ namespace WebApi.Controllers
                                      Fk_SensorType = sensorType.Id
                                  };
 
-                    dictionary[sensor] = new Value {Value1 = keyValuePair.Value};
+                    dictionary[sensor] = new Value {ValueInput = keyValuePair.Value};
                 }
             return dictionary;
         }
