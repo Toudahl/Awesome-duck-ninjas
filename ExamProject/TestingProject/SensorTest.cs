@@ -43,7 +43,7 @@ namespace TestingProject
         [TestMethod]
         public void GetAllSensorsUrl()
         {
-            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/";
+            //var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/";
             apiLink = new ApiLink("sensors");
             var response = apiLink.GetAsync();
 
@@ -69,7 +69,7 @@ namespace TestingProject
         [TestMethod]
         public void GetSingleSensorNameUrl()
         {
-            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/292";
+            //var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/292";
             apiLink = new ApiLink("sensors/2");
             var response = apiLink.GetAsync();
 
@@ -118,7 +118,7 @@ namespace TestingProject
         public void CreateSensorWithUrl()
         {
             byteArray = Encoding.UTF8.GetBytes(value);
-            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/postByte";
+            //var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/postByte";
             apiLink = new ApiLink("sensors/postByte");
             var response = apiLink.PostAsJsonAsync(byteArray).Result;
 

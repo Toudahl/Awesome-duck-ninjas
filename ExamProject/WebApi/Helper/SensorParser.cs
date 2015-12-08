@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers
+namespace WebApi.Helper
 {
     public class SensorParser
     {
@@ -44,7 +44,6 @@ namespace WebApi.Controllers
                     keyValuePair.Value.FK_Sensor = keyValuePair.Key.Id;
                     _dbConnection.Values.Add(keyValuePair.Value);
                     _dbConnection.SaveChanges();
-                    string test = "";
                 }
                 return HttpStatusCode.OK;
             }

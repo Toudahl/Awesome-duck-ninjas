@@ -101,11 +101,6 @@ namespace WebApi.Controllers
             {
                 return StatusCode(HttpStatusCode.InternalServerError);
             }
-            var result = new ParseSensorData(sensorData);
-            Sensor sensor = null;
-
-
-            return StatusCode(HttpStatusCode.OK);
         }
 
 
