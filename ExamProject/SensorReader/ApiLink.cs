@@ -28,7 +28,7 @@ namespace SensorReader
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
-        private async void GetToken(string userName, string password)
+        private void GetToken(string userName, string password)
         {
             using (var client = new HttpClient())
             {

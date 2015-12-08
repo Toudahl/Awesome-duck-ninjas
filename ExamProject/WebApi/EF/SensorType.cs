@@ -11,7 +11,7 @@ namespace WebApi
     {
         public int Id { get; set; }
 
-        [StringLength(50)]
+        [StringLength(200)]
         public string Type { get; set; }
     }
 }

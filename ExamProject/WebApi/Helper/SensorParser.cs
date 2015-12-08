@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers
+namespace WebApi.Helper
 {
     public class SensorParser
     {
@@ -19,24 +21,22 @@ namespace WebApi.Controllers
         {
         }
 
-        public async void ParseInput(byte[] sensorData)
+        public async Task<HttpStatusCode> ParseInput(byte[] sensorData)
         {
             using(_dbConnection = new Model1())
             {
                 var stringList = FromByteArrayToStringList(sensorData).ToList();
                 var dictionary = await ListToDictionaryAsync(stringList);
                 var sensorValues = await ToSensorValueDictionaryAsync(dictionary);
-                AddToDatabase(sensorValues);
+                return AddToDatabase(sensorValues);
             }
         }
 
-        private void AddToDatabase(IDictionary<Sensor,Value> sensorValues)
+        private HttpStatusCode AddToDatabase(IDictionary<Sensor,Value> sensorValues)
         {
-
-
             try
             {
-                foreach (KeyValuePair<Sensor, Value> keyValuePair in sensorValues)
+                foreach(KeyValuePair<Sensor, Value> keyValuePair in sensorValues)
                 {
                     _dbConnection.Sensors.Add(keyValuePair.Key);
                     _dbConnection.SaveChanges();
@@ -44,21 +44,24 @@ namespace WebApi.Controllers
                     keyValuePair.Value.FK_Sensor = keyValuePair.Key.Id;
                     _dbConnection.Values.Add(keyValuePair.Value);
                     _dbConnection.SaveChanges();
-                    string test = "";
                 }
-
+                return HttpStatusCode.OK;
             }
-            catch (DbEntityValidationException ex)
+            catch(DbEntityValidationException ex)
             {
                 foreach(var dbEntityValidationResult in ex.EntityValidationErrors)
                 {
                     foreach(DbValidationError dbValidationError in dbEntityValidationResult.ValidationErrors)
                     {
                         Debug.WriteLine($"error message: {dbValidationError.ErrorMessage}\nproperty name: {dbValidationError.PropertyName}");
-
                     }
                 }
             }
+            catch(Exception x)
+            {
+                Debug.WriteLine("unknown exception: " + x.GetType());
+            }
+            return HttpStatusCode.BadRequest;
         }
 
         private async Task<Dictionary<Sensor, Value>> ToSensorValueDictionaryAsync(IDictionary<string,string> stringDictionary)

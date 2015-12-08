@@ -11,10 +11,10 @@ namespace WebApi
     {
         public int Id { get; set; }
 
-        public int? Fk_Location { get; set; }
+        public int Fk_Location { get; set; }
 
-        public int? Fk_SensorType { get; set; }
+        public int Fk_SensorType { get; set; }
 
-        public int? Fk_Broadcaster { get; set; }
+        public int Fk_Broadcaster { get; set; }
     }
 }
