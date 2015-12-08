@@ -12,17 +12,27 @@ using WebApi.Helper;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     public class SensorController : ApiController
     {
         private Model1 db = new Model1();
 
         // GET: api/Sensor
+        /// <summary>
+        /// Get all sensors
+        /// </summary>
+        /// <returns>IQueryable<Sensor></returns>
         public IQueryable<Sensor> GetSensors()
         {
             return db.Sensors;
         }
 
         // GET: api/Sensor/5
+        /// <summary>
+        /// GetSensor by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Sensor))]
         public IHttpActionResult GetSensor(int id)
         {
@@ -36,6 +46,12 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/Sensor/5
+        /// <summary>
+        /// Put sensor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sensor"></param>
+        /// <returns></returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult Putsensor(int id, Sensor sensor)
         {
@@ -71,6 +87,11 @@ namespace WebApi.Controllers
         }
 
         // POST: api/Sensor
+        /// <summary>
+        /// Post sensor
+        /// </summary>
+        /// <param name="sensor"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Sensor))]
         public IHttpActionResult Postsensor(Sensor sensor)
         {
@@ -86,6 +107,11 @@ namespace WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// PostSensorByteData with byte[] sensorData
+        /// </summary>
+        /// <param name="sensorData"></param>
+        /// <returns>IHttpActionResult</returns>
         [HttpPost]
         [Route("api/Sensor/postByte/")]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
@@ -109,6 +135,11 @@ namespace WebApi.Controllers
 
 
         // DELETE: api/Sensor/5
+        /// <summary>
+        /// Deletesensor by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Sensor))]
         public IHttpActionResult Deletesensor(int id)
         {
@@ -133,11 +164,22 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Check if sensor exists using sensor id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool sensorExists(int id)
         {
             return db.Sensors.Count(e => e.Id == id) > 0;
         }
 
+
+        /// <summary>
+        /// Get sensor with it's values using sensor id
+        /// </summary>
+        /// <param name="sensorId"></param>
+        /// <returns>IQueryable<Value></returns>
         [HttpGet]
         [Route("api/Sensor/{sensorId}/Values/")]
         public IQueryable<Value> GetSensorsWithValues(int sensorId)
@@ -150,6 +192,10 @@ namespace WebApi.Controllers
 
 
 
+        /// <summary>
+        /// get all sensors as SensorDTO objects
+        /// </summary>
+        /// <returns>List<SensorDTO></returns>
         [HttpGet]
         [Route("api/Sensor/All")]
         public List<SensorDTO> GetAllSensorsInfo()
@@ -179,7 +225,16 @@ namespace WebApi.Controllers
         }
 
 
+
+        
         //usage http://awesomeduckninjas.azurewebsites.net/api/Sensor/FilterSensorData/?sensorId=2&fromDate=2015-10-10&toDate=2015-12-01
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sensorId"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/Sensor/FilterSensorData")]
         public SensorDTO FilterSensorByDates(int sensorId, DateTime ? fromDate = null, DateTime ? toDate = null)

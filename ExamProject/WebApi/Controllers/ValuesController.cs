@@ -16,14 +16,14 @@ namespace WebApi.Controllers
         private Model1 db = new Model1();
 
         // GET: api/data_values
-        public IQueryable<Value> Getdata_values()
+        public IQueryable<Value> GetValues()
         {
             return db.Values;
         }
 
         // GET: api/data_values/5
         [ResponseType(typeof(Value))]
-        public IHttpActionResult GetValues(int id)
+        public IHttpActionResult GetValue(int id)
         {
             Value values = db.Values.Find(id);
             if (values == null)

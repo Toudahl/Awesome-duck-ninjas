@@ -15,6 +15,6 @@ namespace WebApi
 
         public int? FK_Sensor { get; set; }
 
-        public DateTime? CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; } = DateTime.Now;
     }
 }

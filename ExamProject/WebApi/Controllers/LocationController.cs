@@ -10,16 +10,27 @@ using System.Web.Http.Description;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     public class LocationController : ApiController
     {
         Model1 db = new Model1();
         // GET: api/Location
+        
+        /// <summary>
+        /// Get all locations
+        /// </summary>
+        /// <returns>IEnumerable<Location></returns>
         public IEnumerable<Location> Get()
         {
             return db.Locations;
         }
 
         // GET: api/Location/5
+        /// <summary>
+        /// Get location by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Location))]
         public IHttpActionResult Get(int id)
         {
@@ -29,6 +40,11 @@ namespace WebApi.Controllers
         }
 
         // POST: api/Location
+        /// <summary>
+        /// Post location
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Location))]
         public IHttpActionResult Post(Location location)
         {
@@ -45,6 +61,12 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/Location/5
+        /// <summary>
+        /// Put location 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="location"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Location))]
         public IHttpActionResult Put(int id, Location location)
         {
@@ -65,6 +87,11 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/Location/5
+        /// <summary>
+        /// Delete location
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IHttpActionResult Delete(int id)
         {
             var location = db.Locations.First((i) => i.Id == id);

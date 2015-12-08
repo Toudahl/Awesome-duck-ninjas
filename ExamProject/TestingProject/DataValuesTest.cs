@@ -32,7 +32,7 @@ namespace TestingProject
         [TestMethod]
         public void GetData()
         {
-            var res = dataController.Getdata_values();
+            var res = dataController.GetValues();
             Assert.IsNotNull(res);
             //Assert.AreEqual(120, res.Count());
 

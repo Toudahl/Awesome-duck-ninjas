@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     public class SensorTypeController : ApiController
     {
         private Model1 db = new Model1();
