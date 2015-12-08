@@ -225,7 +225,7 @@ namespace WebApi.Controllers
         
         //usage http://awesomeduckninjas.azurewebsites.net/api/Sensor/FilterSensorData/?sensorId=2&fromDate=2015-10-10&toDate=2015-12-01
         /// <summary>
-        /// 
+        /// Filter sensor 
         /// </summary>
         /// <param name="sensorId"></param>
         /// <param name="fromDate"></param>
@@ -267,6 +267,11 @@ namespace WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// Get all information about sensor by id
+        /// </summary>
+        /// <param name="sensorId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/Sensor/{sensorId}/All")]
         public SensorDTO GetAllSensorInfo(int sensorId)

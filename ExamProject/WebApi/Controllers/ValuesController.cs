@@ -16,12 +16,21 @@ namespace WebApi.Controllers
         private Model1 db = new Model1();
 
         // GET: api/data_values
+        /// <summary>
+        /// Get all values 
+        /// </summary>
+        /// <returns>IQueryable<Value></returns>
         public IQueryable<Value> GetValues()
         {
             return db.Values;
         }
 
         // GET: api/data_values/5
+        /// <summary>
+        /// Get value by value id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Value))]
         public IHttpActionResult GetValue(int id)
         {
@@ -35,6 +44,12 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/data_values/5
+        /// <summary>
+        /// Put values with id and value instance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="values"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutValue(int id, Value values)
         {
@@ -70,6 +85,11 @@ namespace WebApi.Controllers
         }
 
         // POST: api/data_values
+        /// <summary>
+        /// Post value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Value))]
         public IHttpActionResult PostValue(Value value)
         {
@@ -85,6 +105,11 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/data_values/5
+        /// <summary>
+        /// Delete value by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Value))]
         public IHttpActionResult DeleteValue(int id)
         {
