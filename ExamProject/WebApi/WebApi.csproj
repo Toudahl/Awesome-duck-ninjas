@@ -234,6 +234,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="EF\Sensor.cs" />
     <Compile Include="EF\SensorType.cs" />
+    <Compile Include="DTO\SensorDTO.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="EF\Value.cs" />
   </ItemGroup>
@@ -265,6 +266,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <None Include="Properties\PublishProfiles\awesomeduckninjas - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\awesomeduckninjas - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\awesomeduckninjas.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

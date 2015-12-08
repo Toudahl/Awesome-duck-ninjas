@@ -23,15 +23,15 @@ namespace WebApi.Controllers
 
         // GET: api/data_values/5
         [ResponseType(typeof(Value))]
-        public IHttpActionResult Getdata_values(int id)
+        public IHttpActionResult GetValues(int id)
         {
-            Value data_values = db.Values.Find(id);
-            if (data_values == null)
+            Value values = db.Values.Find(id);
+            if (values == null)
             {
                 return NotFound();
             }
 
-            return Ok(data_values);
+            return Ok(values);
         }
 
         // PUT: api/data_values/5
