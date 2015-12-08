@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Helper;
@@ -88,23 +89,23 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("api/Sensor/postByte/")]
-        public IHttpActionResult PostSensorByteData(byte[] sensorData)
+        public async Task<IHttpActionResult> PostSensorByteData(byte[] sensorData)
         {
             SensorParser parser = new SensorParser();
 
             try
             {
-                parser.ParseInput(sensorData);
+                return StatusCode(await parser.ParseInput(sensorData));
             }
             catch (Exception)
             {
                 return StatusCode(HttpStatusCode.InternalServerError);
             }
             var result = new ParseSensorData(sensorData);
-            //Sensor sensor = null;
+            Sensor sensor = null;
 
-        
-            return StatusCode(HttpStatusCode.Accepted);
+
+            return StatusCode(HttpStatusCode.OK);
         }
 
 
