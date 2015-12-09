@@ -11,18 +11,27 @@ using System.Web.Http.Description;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     public class SensorTypeController : ApiController
     {
         private Model1 db = new Model1();
 
-
         // GET: api/SensorType
+        /// <summary>
+        /// Get all sensorsTypes
+        /// </summary>
+        /// <returns>IEnumerable<SensorType></returns>
         public IEnumerable<SensorType> Get()
         {
            return db.SensorTypes;
         }
 
         // GET: api/SensorType/5
+        /// <summary>
+        /// Get sensorType by sensorTypeId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(SensorType))]
         public IHttpActionResult Get(int id)
         {
@@ -36,6 +45,11 @@ namespace WebApi.Controllers
         }
 
         // POST: api/SensorType
+        /// <summary>
+        /// Post sensorType 
+        /// </summary>
+        /// <param name="sensorType"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(SensorType))]
         public IHttpActionResult Post(SensorType sensorType)
         {
@@ -51,6 +65,12 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/SensorType/5
+        /// <summary>
+        /// Put sensorType by id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sensorType"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult Put(int id, SensorType sensorType)
         {
@@ -72,6 +92,11 @@ namespace WebApi.Controllers
 
         // DELETE: api/SensorType/5
 
+        /// <summary>
+        /// Delete sensorType by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(SensorType))]
         public IHttpActionResult Delete(int id)
         {

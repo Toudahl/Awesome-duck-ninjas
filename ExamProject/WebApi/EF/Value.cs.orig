@@ -17,10 +17,14 @@ namespace WebApi
 
         public int FK_Sensor { get; set; }
 
+<<<<<<< HEAD
         public DateTime? CreatedOn { get; set; } = DateTime.Now;
+=======
+        public DateTime CreatedOn
         {
             get;
             set;
         } = DateTime.Now;
+>>>>>>> e2e407af5d180f59fe925cc18b64725aaac8ed3b
     }
 }

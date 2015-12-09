@@ -8,16 +8,28 @@ using System.Web.Http.Description;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     public class BroadcasterController : ApiController
     {
          private Model1 db = new Model1();
         // GET: api/Broadcaster
+
+        /// <summary>
+        /// Get all broadcasters
+        /// </summary>
+         /// <returns>IEnumerable<Broadcaster></returns>
         public IEnumerable<Broadcaster> Get()
         {
             return db.Broadcasters;
         }
 
+       
         // GET: api/Broadcaster/5
+        /// <summary>
+        /// Get broadcaste by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IHttpActionResult</returns>
         [ResponseType(typeof(Broadcaster))]
         public IHttpActionResult Get(int id)
         {
@@ -29,6 +41,12 @@ namespace WebApi.Controllers
             return Ok(broadcaster);
         }
 
+
+        /// <summary>
+        /// Get broadcaster with location, sensor type
+        /// </summary>
+        /// <param name="broadcasterId"></param>
+        /// <returns>IEnumerable<SensorDTO></returns>
         [HttpGet]
         [Route("api/Broadcaster/{broadcasterId}/Sensors")]
         public IEnumerable<SensorDTO> GetBroadcasterSensors(int broadcasterId)
