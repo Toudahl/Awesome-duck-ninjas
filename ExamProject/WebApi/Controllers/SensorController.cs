@@ -18,6 +18,7 @@ namespace WebApi.Controllers
     {
         private Model1 db = new Model1();
 
+
         // GET: api/Sensor
         /// <summary>
         /// Get all sensors
@@ -117,10 +118,10 @@ namespace WebApi.Controllers
         [Route("api/Sensor/postByte/")]
         public async Task<IHttpActionResult> PostSensorByteData(byte[] sensorData)
         {
-            SensorParser parser = new SensorParser();
 
             try
             {
+                var parser = new SensorParser();
                 return StatusCode(await parser.ParseInput(sensorData));
             }
             catch (Exception)

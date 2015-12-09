@@ -24,12 +24,12 @@ namespace WebApi.Helper
         /// <returns>Ok, on success, BadRequest on failure</returns>
         public async Task<HttpStatusCode> ParseInput(byte[] sensorData)
         {
-            using(_dbConnection = new Model1())
+            using (_dbConnection = new Model1())
             {
                 var stringList = FromByteArrayToStringList(sensorData).ToList();
                 var dictionary = await ListToDictionaryAsync(stringList);
                 var sensorValues = await ToSensorValueDictionaryAsync(dictionary);
-                return AddToDatabase(sensorValues);
+                return AddValueToDatabase(sensorValues);
             }
         }
 
@@ -38,34 +38,31 @@ namespace WebApi.Helper
         /// </summary>
         /// <param name="sensorValues">Dictionary containing the sensor as key, and the value as - well - value</param>
         /// <returns>OK if everything was added correctly to the db. BadRequest if something went wrong.</returns>
-        private HttpStatusCode AddToDatabase(IDictionary<Sensor,Value> sensorValues)
+        private HttpStatusCode AddValueToDatabase(IDictionary<Sensor, Value> sensorValues)
         {
             try
             {
-                foreach(KeyValuePair<Sensor, Value> keyValuePair in sensorValues)
+                foreach (KeyValuePair<Sensor, Value> keyValuePair in sensorValues)
                 {
-                    _dbConnection.Sensors.Add(keyValuePair.Key);
-                    _dbConnection.SaveChanges();
-
                     keyValuePair.Value.FK_Sensor = keyValuePair.Key.Id;
                     _dbConnection.Values.Add(keyValuePair.Value);
                     _dbConnection.SaveChanges();
                 }
                 return HttpStatusCode.OK;
             }
-            catch(DbEntityValidationException ex)
+            catch (DbEntityValidationException ex)
             {
-                foreach(var dbEntityValidationResult in ex.EntityValidationErrors)
+                foreach (var dbEntityValidationResult in ex.EntityValidationErrors)
                 {
-                    foreach(DbValidationError dbValidationError in dbEntityValidationResult.ValidationErrors)
+                    foreach (DbValidationError dbValidationError in dbEntityValidationResult.ValidationErrors)
                     {
-                        Debug.WriteLine($"error message: {dbValidationError.ErrorMessage}\nproperty name: {dbValidationError.PropertyName}");
+                        Trace.TraceError($"error message: {dbValidationError.ErrorMessage}\nproperty name: {dbValidationError.PropertyName}");
                     }
                 }
             }
-            catch(Exception x)
+            catch (Exception x)
             {
-                Debug.WriteLine("unknown exception: " + x.GetType());
+                Trace.TraceError("unknown exception: " + x.GetType());
             }
             return HttpStatusCode.BadRequest;
         }
@@ -75,47 +72,51 @@ namespace WebApi.Helper
         /// </summary>
         /// <param name="stringDictionary"></param>
         /// <returns></returns>
-        private async Task<Dictionary<Sensor, Value>> ToSensorValueDictionaryAsync(IDictionary<string,string> stringDictionary)
+        private async Task<Dictionary<Sensor, Value>> ToSensorValueDictionaryAsync(IDictionary<string, string> stringDictionary)
         {
             Dictionary<Sensor, Value> dictionary = new Dictionary<Sensor, Value>();
-                foreach (KeyValuePair<string, string> keyValuePair in stringDictionary)
-                {
-                    var sensorType = await GetSensorTypeAsync(keyValuePair.Key);
-                    var sensor = await GetSensorAsync(_broadcaster.Id,_location.Id, sensorType.Id);
-                    //var sensor = new Sensor //TODO modify here, if there should only be only one entry for each sensor in the DB
-                    //             { 
-                    //                 Fk_Broadcaster = _broadcaster.Id,
-                    //                 Fk_Location = _location.Id,
-                    //                 Fk_SensorType = sensorType.Id
-                    //             };
+            foreach (KeyValuePair<string, string> keyValuePair in stringDictionary)
+            {
+                var sensorType = await GetSensorTypeAsync(keyValuePair.Key);
+                var sensor = await GetSensorAsync(_broadcaster.Id, _location.Id, sensorType.Id);
 
-                    dictionary[sensor] = new Value {ValueInput = keyValuePair.Value};
-                }
+                dictionary[sensor] = new Value { ValueInput = keyValuePair.Value };
+            }
             return dictionary;
         }
 
+        /// <summary>
+        /// Either gets an existing sensor, or adds a new one.
+        /// </summary>
+        /// <param name="broadcasterId">FK to the broadcaster</param>
+        /// <param name="locationId">FK to the location</param>
+        /// <param name="sensorTypeId">FK to the sensor type</param>
+        /// <returns>The sensor</returns>
         private async Task<Sensor> GetSensorAsync(int broadcasterId, int locationId, int sensorTypeId)
         {
-            var sensor = await _dbConnection.Sensors.FirstOrDefaultAsync(
-                s => s.Fk_Broadcaster == broadcasterId 
-                && s.Fk_Location == locationId 
-                && s.Fk_SensorType == sensorTypeId);
-            if(sensor != null)
-            {
+
+                var sensor = await _dbConnection.Sensors.FirstOrDefaultAsync(
+                    s => s.Fk_Broadcaster == broadcasterId
+                    && s.Fk_Location == locationId
+                    && s.Fk_SensorType == sensorTypeId);
+
+                if (sensor != null)
+                {
+                    return sensor;
+                }
+
+                sensor = new Sensor
+                {
+                    Fk_Broadcaster = broadcasterId,
+                    Fk_Location = locationId,
+                    Fk_SensorType = sensorTypeId
+                };
+
+                _dbConnection.Sensors.Add(sensor);
+                await _dbConnection.SaveChangesAsync();
+
                 return sensor;
-            }
-
-            sensor = new Sensor //TODO modify here, if there should only be only one entry for each sensor in the DB
-            {
-                Fk_Broadcaster = broadcasterId,
-                Fk_Location = locationId,
-                Fk_SensorType = sensorTypeId
-            };
-
-            _dbConnection.Sensors.Add(sensor);
-            await _dbConnection.SaveChangesAsync();
-
-            return sensor;
+            
         }
 
         /// <summary>
@@ -126,12 +127,12 @@ namespace WebApi.Helper
         private async Task<SensorType> GetSensorTypeAsync(string type)
         {
             var sensorType = await _dbConnection.SensorTypes.FirstOrDefaultAsync(s => s.Type.ToLower() == type.ToLower());
-            if(sensorType != null)
+            if (sensorType != null)
             {
                 return sensorType;
             }
 
-            sensorType = new SensorType {Type = FirstLetterToUpperRestLower(type)};
+            sensorType = new SensorType { Type = FirstLetterToUpperRestLower(type) };
             _dbConnection.SensorTypes.Add(sensorType);
             await _dbConnection.SaveChangesAsync();
 
@@ -182,20 +183,20 @@ namespace WebApi.Helper
         /// <returns>Location object</returns>
         private async Task<Location> GetLocationAsync(string name)
         {
-                Location location = await _dbConnection.Locations.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
+            Location location = await _dbConnection.Locations.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
 
-                if(location != null)
-                {
-                    return location;
-                }
-
-                location = new Location {Name = FirstLetterToUpperRestLower(name) };
-
-                _dbConnection.Locations.Add(location);
-                await _dbConnection.SaveChangesAsync();
-
+            if (location != null)
+            {
                 return location;
-            
+            }
+
+            location = new Location { Name = FirstLetterToUpperRestLower(name) };
+
+            _dbConnection.Locations.Add(location);
+            await _dbConnection.SaveChangesAsync();
+
+            return location;
+
         }
 
         /// <summary>
@@ -205,33 +206,38 @@ namespace WebApi.Helper
         /// <returns>Broadcaster object</returns>
         private async Task<Broadcaster> GetBroadcasterAsync(string name)
         {
-                Broadcaster broadcaster = await _dbConnection.Broadcasters.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
+            Broadcaster broadcaster = await _dbConnection.Broadcasters.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
 
-                if(broadcaster != null)
-                {
-                    return broadcaster;
-                }
-
-                broadcaster = new Broadcaster {Name = FirstLetterToUpperRestLower(name) };
-
-                _dbConnection.Broadcasters.Add(broadcaster);
-                await _dbConnection.SaveChangesAsync();
-
+            if (broadcaster != null)
+            {
                 return broadcaster;
-            
+            }
+
+            broadcaster = new Broadcaster { Name = FirstLetterToUpperRestLower(name) };
+
+            _dbConnection.Broadcasters.Add(broadcaster);
+            await _dbConnection.SaveChangesAsync();
+
+            return broadcaster;
+
         }
 
         /// <summary>
-        /// 
+        /// Converts a byte array, into an ienumerable of strings.
         /// </summary>
-        /// <param name="byteArray"></param>
-        /// <returns></returns>
+        /// <param name="byteArray">input to convert</param>
+        /// <returns>ienumerable of string</returns>
         private IEnumerable<string> FromByteArrayToStringList(byte[] byteArray)
         {
             var broadcast = Encoding.ASCII.GetString(byteArray);
             return broadcast.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
+        /// <summary>
+        /// Changes the first letter in a word to upper case, and lowers the rest.
+        /// </summary>
+        /// <param name="input">string to modify</param>
+        /// <returns></returns>
         private string FirstLetterToUpperRestLower(string input)
         {
             return char.ToUpper(input[0]) + input.Substring(1)
