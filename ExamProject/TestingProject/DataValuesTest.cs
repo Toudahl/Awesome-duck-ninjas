@@ -53,7 +53,7 @@ namespace TestingProject
         [TestMethod]
         public void GetDataForOneSensor()
         {
-            var res = dataController.GetValues(2);
+            var res = dataController.GetValue(2);
             var contentResult = res as OkNegotiatedContentResult<Value>;
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);

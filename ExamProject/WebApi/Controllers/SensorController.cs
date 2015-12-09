@@ -118,7 +118,6 @@ namespace WebApi.Controllers
         [Route("api/Sensor/postByte/")]
         public async Task<IHttpActionResult> PostSensorByteData(byte[] sensorData)
         {
-
             try
             {
                 var parser = new SensorParser();
