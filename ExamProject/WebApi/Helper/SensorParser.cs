@@ -17,10 +17,11 @@ namespace WebApi.Helper
         private Location _location;
         private Model1 _dbConnection;
 
-        public SensorParser()
-        {
-        }
-
+        /// <summary>
+        /// Takes a byte array, convert it to strings. Parses it, and saves it to the database.
+        /// </summary>
+        /// <param name="sensorData">sensor data</param>
+        /// <returns>Ok, on success, BadRequest on failure</returns>
         public async Task<HttpStatusCode> ParseInput(byte[] sensorData)
         {
             using(_dbConnection = new Model1())
@@ -32,6 +33,11 @@ namespace WebApi.Helper
             }
         }
 
+        /// <summary>
+        /// This will store the data in the database.
+        /// </summary>
+        /// <param name="sensorValues">Dictionary containing the sensor as key, and the value as - well - value</param>
+        /// <returns>OK if everything was added correctly to the db. BadRequest if something went wrong.</returns>
         private HttpStatusCode AddToDatabase(IDictionary<Sensor,Value> sensorValues)
         {
             try
@@ -64,24 +70,59 @@ namespace WebApi.Helper
             return HttpStatusCode.BadRequest;
         }
 
+        /// <summary>
+        /// This will take the "string,string" dictionary, and turn it into "sensor,value" dictionary.
+        /// </summary>
+        /// <param name="stringDictionary"></param>
+        /// <returns></returns>
         private async Task<Dictionary<Sensor, Value>> ToSensorValueDictionaryAsync(IDictionary<string,string> stringDictionary)
         {
             Dictionary<Sensor, Value> dictionary = new Dictionary<Sensor, Value>();
                 foreach (KeyValuePair<string, string> keyValuePair in stringDictionary)
                 {
                     var sensorType = await GetSensorTypeAsync(keyValuePair.Key);
-                    var sensor = new Sensor //TODO modify here, if there should only be only one entry for each sensor in the DB
-                                 { 
-                                     Fk_Broadcaster = _broadcaster.Id,
-                                     Fk_Location = _location.Id,
-                                     Fk_SensorType = sensorType.Id
-                                 };
+                    var sensor = await GetSensorAsync(_broadcaster.Id,_location.Id, sensorType.Id);
+                    //var sensor = new Sensor //TODO modify here, if there should only be only one entry for each sensor in the DB
+                    //             { 
+                    //                 Fk_Broadcaster = _broadcaster.Id,
+                    //                 Fk_Location = _location.Id,
+                    //                 Fk_SensorType = sensorType.Id
+                    //             };
 
                     dictionary[sensor] = new Value {ValueInput = keyValuePair.Value};
                 }
             return dictionary;
         }
 
+        private async Task<Sensor> GetSensorAsync(int broadcasterId, int locationId, int sensorTypeId)
+        {
+            var sensor = await _dbConnection.Sensors.FirstOrDefaultAsync(
+                s => s.Fk_Broadcaster == broadcasterId 
+                && s.Fk_Location == locationId 
+                && s.Fk_SensorType == sensorTypeId);
+            if(sensor != null)
+            {
+                return sensor;
+            }
+
+            sensor = new Sensor //TODO modify here, if there should only be only one entry for each sensor in the DB
+            {
+                Fk_Broadcaster = broadcasterId,
+                Fk_Location = locationId,
+                Fk_SensorType = sensorTypeId
+            };
+
+            _dbConnection.Sensors.Add(sensor);
+            await _dbConnection.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        /// <summary>
+        /// Either gets the sensor type from the DB, or creates a new one.
+        /// </summary>
+        /// <param name="type">Name of the requested type</param>
+        /// <returns>SensorType object</returns>
         private async Task<SensorType> GetSensorTypeAsync(string type)
         {
             var sensorType = await _dbConnection.SensorTypes.FirstOrDefaultAsync(s => s.Type.ToLower() == type.ToLower());
@@ -97,6 +138,11 @@ namespace WebApi.Helper
             return sensorType;
         }
 
+        /// <summary>
+        /// Will take a list of string. Split them, and return a dictionary of "string,string"
+        /// </summary>
+        /// <param name="input">List of strings.</param>
+        /// <returns>Dictionary</returns>
         private async Task<Dictionary<string, string>> ListToDictionaryAsync(IList<string> input)
         {
             _broadcaster = await GetBroadcasterAsync(input[0]);
@@ -123,10 +169,17 @@ namespace WebApi.Helper
 
             _location = await GetLocationAsync(result["Location"]);
             result.Remove("Location");
+            result.Remove("Platform");
+            result.Remove("Machine");
 
             return result;
         }
 
+        /// <summary>
+        /// Either gets the location from the db, or adds a new one.
+        /// </summary>
+        /// <param name="name">Location name</param>
+        /// <returns>Location object</returns>
         private async Task<Location> GetLocationAsync(string name)
         {
                 Location location = await _dbConnection.Locations.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
@@ -145,6 +198,11 @@ namespace WebApi.Helper
             
         }
 
+        /// <summary>
+        /// Either gets the broadcaster from the db, or adds a new one.
+        /// </summary>
+        /// <param name="name">name of the broadcaster</param>
+        /// <returns>Broadcaster object</returns>
         private async Task<Broadcaster> GetBroadcasterAsync(string name)
         {
                 Broadcaster broadcaster = await _dbConnection.Broadcasters.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
@@ -163,7 +221,11 @@ namespace WebApi.Helper
             
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="byteArray"></param>
+        /// <returns></returns>
         private IEnumerable<string> FromByteArrayToStringList(byte[] byteArray)
         {
             var broadcast = Encoding.ASCII.GetString(byteArray);
