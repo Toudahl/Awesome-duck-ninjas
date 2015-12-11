@@ -13,7 +13,7 @@ namespace WebApi.Controllers
     [Authorize]
     public class ValuesController : ApiController
     {
-        private Model1 db = new Model1();
+        private AzureDbConnection db = new AzureDbConnection();
 
         // GET: api/data_values
         /// <summary>

@@ -13,7 +13,7 @@ namespace WebApi.Controllers
     [Authorize]
     public class LocationController : ApiController
     {
-        Model1 db = new Model1();
+        AzureDbConnection db = new AzureDbConnection();
         // GET: api/Location
         
         /// <summary>

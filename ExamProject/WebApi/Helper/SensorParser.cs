@@ -15,7 +15,7 @@ namespace WebApi.Helper
     {
         private Broadcaster _broadcaster;
         private Location _location;
-        private Model1 _dbConnection;
+        private AzureDbConnection _dbConnection;
 
         /// <summary>
         /// Takes a byte array, convert it to strings. Parses it, and saves it to the database.
@@ -24,7 +24,7 @@ namespace WebApi.Helper
         /// <returns>Ok, on success, BadRequest on failure</returns>
         public async Task<HttpStatusCode> ParseInput(byte[] sensorData)
         {
-            using (_dbConnection = new Model1())
+            using (_dbConnection = new AzureDbConnection())
             {
                 var stringList = FromByteArrayToStringList(sensorData).ToList();
                 var dictionary = await ListToDictionaryAsync(stringList);

@@ -11,7 +11,7 @@ namespace WebApi.Controllers
     [Authorize]
     public class BroadcasterController : ApiController
     {
-         private Model1 db = new Model1();
+         private AzureDbConnection db = new AzureDbConnection();
         // GET: api/Broadcaster
 
         /// <summary>

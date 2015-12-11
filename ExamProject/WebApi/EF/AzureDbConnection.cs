@@ -5,10 +5,10 @@ namespace WebApi
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class Model1 : DbContext
+    public partial class AzureDbConnection : DbContext
     {
-        public Model1()
-            : base("name=Model1")
+        public AzureDbConnection()
+            : base("name=AzureDbConnection")
         {
         }
 
