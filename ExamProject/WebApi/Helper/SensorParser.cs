@@ -168,7 +168,14 @@ namespace WebApi.Helper
                 result.Add(splitInput[i], splitInput[i + 1]);
             }
 
+            if(!result.ContainsKey("Location"))
+            {
+                Trace.TraceWarning("No location tag was found");
+                throw new FormatException("Missing location information");
+            }
+
             _location = await GetLocationAsync(result["Location"]);
+
             result.Remove("Location");
             result.Remove("Platform");
             result.Remove("Machine");
