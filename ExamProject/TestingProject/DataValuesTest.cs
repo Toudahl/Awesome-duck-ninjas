@@ -20,24 +20,24 @@ namespace TestingProject
     [TestClass]
     public class DataValuesTest
     {
-        private data_valuesController dataController;
+        private ValuesController dataController;
         private ApiLink link;
         [TestInitialize]
         public void TestInitialize()
         {
-            dataController = new data_valuesController();
+            dataController = new ValuesController();
             link = new ApiLink("data_values");
         }
 
         [TestMethod]
         public void GetData()
         {
-            var res = dataController.Getdata_values();
+            var res = dataController.GetValues();
             Assert.IsNotNull(res);
             //Assert.AreEqual(120, res.Count());
 
-            var data_id = res.First((i) => i.sensor_id == 292).id;
-            Assert.AreEqual(62, data_id);
+            var dataId = res.First((i) => i.FK_Sensor == 2).Id;
+            Assert.AreEqual(2, dataId);
         }
 
 
@@ -53,48 +53,45 @@ namespace TestingProject
         [TestMethod]
         public void GetDataForOneSensor()
         {
-            var res = dataController.Getdata_values(62);
-            var contentResult = res as OkNegotiatedContentResult<data_values>;
-
+            var res = dataController.GetValue(2);
+            var contentResult = res as OkNegotiatedContentResult<Value>;
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);
 
-            var dataValues = contentResult.Content.sensor.data_values;
-            var dataValue = dataValues.First((i) => i.id == 62);
-
-            Assert.AreEqual("Potentiometer(8bit)", dataValue.sensor.name);
+            var sensorId = contentResult.Content.FK_Sensor;
+            Assert.AreEqual(2, sensorId);
         }
 
         [TestMethod]
         public void GetDataForOneSensorUrl()
         {
-            var result = link.GetAsync(62)
+            var result = link.GetAsync(2)
                              .Result;
 
             Assert.IsTrue(result.IsSuccessStatusCode);
             var stringResult = result.Content.ReadAsStringAsync().Result;
             Assert.IsNotNull(stringResult);
 
-            var dataValue = JsonConvert.DeserializeObject<data_values>(stringResult);
+            var dataValue = JsonConvert.DeserializeObject<Value>(stringResult);
 
-                Assert.AreEqual("Potentiometer(8bit)", dataValue.sensor.name);
+            Assert.AreEqual(2, dataValue.FK_Sensor);
         }
 
         [TestMethod]
         public void CreateDataValues()
         {
-            data_values data = new data_values { sensor_id = 292, value = "999" };
-            var res = dataController.Postdata_values(data);
+            Value data = new Value{ FK_Sensor = 2, ValueInput = "999",CreatedOn = DateTime.Now};
+            var res = dataController.PostValue(data);
             Assert.IsNotNull(res);
         }
 
         [TestMethod]
         public void CreateDataValuesByUrl()
         {
-            using(var client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var result = client.PostAsJsonAsync("http://awesomeduckninjas.azurewebsites.net/api/data_values", new data_values { sensor_id = 292, value = "999" }).Result;
+                var result = client.PostAsJsonAsync("http://awesomeduckninjas.azurewebsites.net/api/data_values", new Value{ FK_Sensor = 2, ValueInput = "888",CreatedOn = DateTime.Now}).Result;
                 Assert.IsTrue(result.IsSuccessStatusCode);
             }
         }
@@ -102,16 +99,16 @@ namespace TestingProject
         [TestMethod]
         public void UpdateData()
         {
-            data_values data = new data_values { sensor_id = 1, value = "889", id = 6 };
-            var res = dataController.Putdata_values(6, data);
+            Value data = new Value{FK_Sensor= 2, ValueInput = "889"};
+            var res = dataController.PutValue(6, data);
             Assert.IsNotNull(res);
         }
 
         [TestMethod]
         public void UpdateDataCheckForValue()
         {
-            data_values data = new data_values { sensor_id = 292, value = "789", id = 62 };
-            var res = dataController.Putdata_values(62, data);
+            Value data = new Value{ FK_Sensor= 2, ValueInput = "789"};
+            var res = dataController.PutValue(62, data);
             Assert.IsNotNull(res);
 
             var contentResult = res as StatusCodeResult;

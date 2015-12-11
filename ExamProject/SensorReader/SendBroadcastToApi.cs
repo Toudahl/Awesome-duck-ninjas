@@ -6,15 +6,15 @@ using Microsoft.SqlServer.Server;
 
 namespace SensorReader
 {
-    internal class TeacherLoungeBroadcast : IBroadcastInterpreter
+    internal class SendBroadcastToApi : IBroadcastInterpreter
     {
         private readonly ApiLink link;
 
-        public TeacherLoungeBroadcast()
+        public SendBroadcastToApi()
         {
             try
             {
-                link = new ApiLink("sensors/postbyte");
+                link = new ApiLink("sensor/postbyte");
             }
             catch (ArgumentNullException argumentNullException)
             {

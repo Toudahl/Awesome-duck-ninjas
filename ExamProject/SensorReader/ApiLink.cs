@@ -14,7 +14,6 @@ namespace SensorReader
     {
         private readonly string _apiPath;
         private const string ServerUrl = "https://awesomeduckninjas.azurewebsites.net/api/";
-        //private const string ServerUrl = "http://localhost:2326/api/";
         private TokenResponce _token;
 
         public ApiLink(string apiPath)
@@ -28,7 +27,7 @@ namespace SensorReader
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
-        private async void GetToken(string userName, string password)
+        private void GetToken(string userName, string password)
         {
             using (var client = new HttpClient())
             {

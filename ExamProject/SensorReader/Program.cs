@@ -14,6 +14,8 @@ namespace SensorReader
     {
         static void Main(string[] args)
         {
+            SetupTracing();
+
 
             if (args.Length != 1)
             {
@@ -21,7 +23,6 @@ namespace SensorReader
                 return;
             }
 
-            SetupTracing();
 
             int port = ParseArgsToInt(args[0]);
 
@@ -38,7 +39,7 @@ namespace SensorReader
 
         private static void StartReciever(int port)
         {
-            var receiver = new UdpBroadcastReceiver(new TeacherLoungeBroadcast());
+            var receiver = new UdpBroadcastReceiver(new SendBroadcastToApi());
             Task.Run(() => receiver.ListenForBroadcast(port));
         }
 

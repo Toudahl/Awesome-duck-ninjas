@@ -23,27 +23,27 @@ namespace TestingProject
     [TestClass]
     public class SensorTest
     {
-        private sensorsController sensorController;
+        private SensorController sensorController;
         private ApiLink apiLink;
         private const String value = "RoomSensor Broadcasting\r\nLocation: Teachers room\r\nPlatform: Linux-3.12.28+-armv6l-with-debian-7.6\r\nMachine: armv6l\r\nPotentiometer(8bit): 129\r\nLight Sensor(8bit): 215\r\nTemperature(8bit): 212\r\nMovement last detected: 2015-11-09 14:07:49.396159\r\n";
         Byte[] byteArray = Encoding.UTF8.GetBytes(value);
         [TestInitialize]
         public void TestInitialize()
         {
-          sensorController = new sensorsController();
+            sensorController = new SensorController();
         }
 
         [TestMethod]
         public void GetAllSensors()
         {
-            var result = sensorController.Getsensors();
+            var result = sensorController.GetSensors();
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void GetAllSensorsUrl()
         {
-            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/";
+            //var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/";
             apiLink = new ApiLink("sensors");
             var response = apiLink.GetAsync();
 
@@ -54,23 +54,23 @@ namespace TestingProject
         [TestMethod]
         public void GetSingleSensor()
         {
-            var result = sensorController.Getsensor(1);
+            var result = sensorController.GetSensor(1);
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void GetSingleSensorName()
         {
-            var result = sensorController.Getsensors();
-            var sensor = result.FirstOrDefault((i) => i.name == "Potentiometer(8bit)");
+            var data = sensorController.GetSensors();
+            var sensor = data.FirstOrDefault((i) => i.Id == 2);
             Assert.IsNotNull(sensor);
         }
 
         [TestMethod]
         public void GetSingleSensorNameUrl()
         {
-            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/292";
-            apiLink = new ApiLink("sensors/292");
+            //var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/292";
+            apiLink = new ApiLink("sensors/2");
             var response = apiLink.GetAsync();
 
             Assert.IsNotNull(response.Result.EnsureSuccessStatusCode());
@@ -100,11 +100,10 @@ namespace TestingProject
         [TestMethod]
         public void CreateSensor()
         {
-            var sensor = new sensor{id = 7,location = "Teachers Room",name = "Test sensor",platform = "Linux Debian"};
+            var sensor = new Sensor { Id = 7, Fk_Broadcaster = 3, Fk_Location = 1, Fk_SensorType = 1};
             var result = sensorController.Postsensor(sensor);
             Assert.IsNotNull(result);
         }
-
 
 
         [TestMethod]
@@ -119,10 +118,10 @@ namespace TestingProject
         public void CreateSensorWithUrl()
         {
             byteArray = Encoding.UTF8.GetBytes(value);
-            var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/postByte";
+            //var uri = "https://awesomeduckninjas.azurewebsites.net/api/sensors/postByte";
             apiLink = new ApiLink("sensors/postByte");
             var response = apiLink.PostAsJsonAsync(byteArray).Result;
-       
+
             Assert.IsNotNull(response.EnsureSuccessStatusCode());
         }
 
@@ -130,8 +129,8 @@ namespace TestingProject
         [TestMethod]
         public void UpdateSensor()
         {
-            var sensor = new sensor { id = 5, location = "Teachers Room Update", name = "Test sensor", platform = "Linux Debian" };
-            var result = sensorController.Putsensor(5,sensor);
+            var sensor = new Sensor { Id = 2,Fk_Location = 2, Fk_Broadcaster = 3, Fk_SensorType = 1};
+            var result = sensorController.Putsensor(5, sensor);
             Assert.IsNotNull(result);
         }
 
@@ -161,12 +160,12 @@ namespace TestingProject
             var result = config.Routes.GetRouteData(request);
             var res = result.Values.Values.ToList();
 
-            Assert.AreEqual("sensors",res[0]);
-            Assert.AreEqual("1",res[1]);
+            Assert.AreEqual("sensors", res[0]);
+            Assert.AreEqual("1", res[1]);
         }
 
-  
- 
+
+
     }
 }
 

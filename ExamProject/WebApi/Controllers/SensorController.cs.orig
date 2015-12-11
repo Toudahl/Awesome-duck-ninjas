@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
-using WebApi;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 using WebApi.Helper;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
-    public class sensorsController : ApiController
+    public class SensorController : ApiController
     {
         private Model1 db = new Model1();
 
-        // GET: api/sensors
-        public IQueryable<sensor> Getsensors()
+        // GET: api/Sensor
+        public IQueryable<Sensor> GetSensor()
         {
-            return db.sensors;
+            return db.Sensors;
         }
 
-        // GET: api/sensors/5
-        [ResponseType(typeof(sensor))]
+        // GET: api/Sensor/5
+        [ResponseType(typeof(Sensor))]
         public IHttpActionResult Getsensor(int id)
         {
-            sensor sensor = db.sensors.Find(id);
+            Sensor sensor = db.Sensors.Find(id);
             if (sensor == null)
             {
                 return NotFound();
@@ -39,16 +39,16 @@ namespace WebApi.Controllers
             return Ok(sensor);
         }
 
-        // PUT: api/sensors/5
+        // PUT: api/Sensor/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult Putsensor(int id, sensor sensor)
+        public IHttpActionResult Putsensor(int id, Sensor sensor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != sensor.id)
+            if (id != sensor.Id)
             {
                 return BadRequest();
             }
@@ -74,69 +74,55 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/sensors
-        [ResponseType(typeof(sensor))]
-        public IHttpActionResult Postsensor(sensor sensor)
+        // POST: api/Sensor
+        [ResponseType(typeof(Sensor))]
+        public IHttpActionResult Postsensor(Sensor sensor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.sensors.Add(sensor);
+            db.Sensors.Add(sensor);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = sensor.id }, sensor);
+            return CreatedAtRoute("DefaultApi", new { id = sensor.Id }, sensor);
         }
 
 
         [HttpPost]
-        [Route("api/sensors/postByte/")]
-        [ResponseType(typeof(sensor))]
+        [Route("api/Sensor/postByte/")]
         public IHttpActionResult PostSensorByteData(byte[] sensorData)
         {
-            var result = new ParseSensorData(sensorData);
-            sensor sensor = null;
+            SensorParser parser = new SensorParser();
 
             try
             {
-                foreach (var item in result.Sensors)
-                {
-                    sensor = db.sensors.FirstOrDefault((i) => i.name == item.Key);
-                    if (sensor == null)
-                    {
-                        sensor = new sensor();
-                        sensor.name = item.Key;
-                        sensor.location = result.Keywords["Location"];
-                        sensor.platform = result.Keywords["Platform"];
-                        db.sensors.Add(sensor);
-                    }
-
-                    sensor.data_values.Add(new data_values {created_on = DateTime.Now, value = item.Value});
-                    db.SaveChanges();
-                }
+                parser.ParseInput(sensorData);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
-                Debug.WriteLine(ex.Source);
-                return BadRequest("Request failed misserably");
+                return StatusCode(HttpStatusCode.InternalServerError);
             }
-            return Ok("Well done");
+            var result = new ParseSensorData(sensorData);
+            //Sensor sensor = null;
+
+        
+            return StatusCode(HttpStatusCode.Accepted);
         }
 
 
-        // DELETE: api/sensors/5
-        [ResponseType(typeof(sensor))]
+        // DELETE: api/Sensor/5
+        [ResponseType(typeof(Sensor))]
         public IHttpActionResult Deletesensor(int id)
         {
-            sensor sensor = db.sensors.Find(id);
+            Sensor sensor = db.Sensors.Find(id);
             if (sensor == null)
             {
                 return NotFound();
             }
 
-            db.sensors.Remove(sensor);
+            db.Sensors.Remove(sensor);
             db.SaveChanges();
 
             return Ok(sensor);
@@ -153,7 +139,7 @@ namespace WebApi.Controllers
 
         public bool sensorExists(int id)
         {
-            return db.sensors.Count(e => e.id == id) > 0;
+            return db.Sensors.Count(e => e.Id == id) > 0;
         }
     }
 }
